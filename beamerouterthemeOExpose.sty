@@ -1,0 +1,182 @@
+\ProvidesPackageRCS $Header: /cvsroot/latex-beamer/latex-beamer/themes/outer/beamerouterthemeOExpose.sty,v 1.0 2010/04/01 $
+
+
+\newdimen\beamer@sidebarwidth
+\newdimen\beamer@headheight
+\usebeamerfont{frametitle}
+\beamer@sidebarwidth=2.5\baselineskip
+\beamer@headheight=2.5\baselineskip
+\reset@font
+
+\def\beamer@lefttext{left}
+
+\DeclareOptionBeamer{hideothersubsections}[]{\beamer@nav@subsectionstyle{show/hide/hide}}
+\DeclareOptionBeamer{hideallsubsections}[]{\beamer@nav@subsectionstyle{hide}}
+
+\DeclareOptionBeamer{width}{\beamer@sidebarwidth=#1}
+\DeclareOptionBeamer{height}{\beamer@headheight=#1}
+\DeclareOptionBeamer{left}{\def\beamer@sidebarside{left}}
+\DeclareOptionBeamer{right}{\def\beamer@sidebarside{right}}
+%\ExecuteOptionsBeamer{left}
+\ProcessOptionsBeamer
+
+
+\mode<presentation>
+
+\setbeamercolor{section in head/foot}{parent=palette tertiary}
+\setbeamercolor{subsection in head/foot}{parent=palette secondary}
+\setbeamercolor{author in head/foot}{parent=subsection in head/foot}
+\setbeamercolor{title in head/foot}{parent=section in head/foot}
+\setbeamercolor{page in head/foot}{parent=subsubsection in head/foot}
+ \setbeamercolor*{frametitle}{parent=sidebar}
+
+\ifdim\beamer@headheight>0pt
+  \defbeamertemplate*{headline}{sidebar theme}
+  {%
+    \begin{beamercolorbox}[wd=\paperwidth]{frametitle}
+      \ifx\beamer@sidebarside\beamer@lefttext%
+      \else%
+        \hfill%
+      \fi%
+      \ifdim\beamer@sidebarwidth>0pt%  
+        \usebeamercolor[bg]{logo}%
+        \vrule width\beamer@sidebarwidth height \beamer@headheight%
+        \hskip-\beamer@sidebarwidth%
+        \hbox to \beamer@sidebarwidth{\hss\vbox to
+          \beamer@headheight{\vss\hbox{\color{fg}\insertlogo}\vss}\hss}%
+      \else%
+        \vrule width0pt height \beamer@headheight%  
+      \fi%
+    \end{beamercolorbox}
+  }
+\fi
+
+
+\def\beamer@sidebarformat#1#2#3{%
+  \begin{beamercolorbox}[wd=\beamer@sidebarwidth,leftskip=#1,rightskip=1ex plus1fil,vmode]{#2}
+    \vbox{}%
+    #3%\par%
+    \vbox{}%
+    %\vskip-0.7ex% 
+  \end{beamercolorbox}
+}
+
+\defbeamertemplate*{section in sidebar}{sidebar theme}
+{%
+  \vbox{% 
+    \vskip1ex%
+    \beamer@sidebarformat{2pt}{section in sidebar}{\scriptsize \insertsectionhead}%
+  }%
+}
+
+\defbeamertemplate*{section in sidebar shaded}{sidebar theme}
+{%
+  \vbox{%
+    \vskip1ex%
+    \beamer@sidebarformat{1pt}{section in sidebar shaded}{\tiny \insertsectionhead}%
+  }%
+}
+
+\defbeamertemplate*{subsection in sidebar}{sidebar theme}
+{%
+  \beamer@sidebarformat{4pt}{subsection in sidebar}{\scriptsize \insertsubsectionhead}%
+}
+
+\defbeamertemplate*{subsection in sidebar shaded}{sidebar theme}
+{%
+  \beamer@sidebarformat{3pt}{subsection in sidebar shaded}{\tiny \insertsubsectionhead}%
+}
+
+\defbeamertemplate*{subsubsection in sidebar}{sidebar theme}
+{%
+  \beamer@sidebarformat{7pt}{subsubsection in sidebar}{\scriptsize \insertsubsubsectionhead}%
+}
+
+\defbeamertemplate*{subsubsection in sidebar shaded}{sidebar theme}
+{%
+  \beamer@sidebarformat{6pt}{subsubsection in sidebar shaded}{\tiny \insertsubsubsectionhead}%
+}
+
+
+\ifdim\beamer@sidebarwidth>0pt
+
+                                % Sidebar
+  \setbeamersize{sidebar width \beamer@sidebarside=\beamer@sidebarwidth}
+\defbeamertemplate*{sidebar \beamer@sidebarside}{sidebar theme}
+{
+  	\beamer@tempdim=\beamer@sidebarwidth%
+		\advance\beamer@tempdim by -6pt%
+
+		\vskip0.5em%
+
+    \insertverticalnavigation{\beamer@sidebarwidth}%
+    \vfill
+    \ifx\beamer@sidebarside\beamer@lefttext%
+    \else%
+      \usebeamercolor{normal text}%
+      \llap{\usebeamertemplate***{navigation symbols}\hskip0.1cm}%
+      \vskip2pt%
+    \fi%
+  }%
+  
+  \ifx\beamer@sidebarside\beamer@lefttext%
+    \defbeamertemplate*{sidebar right}{sidebar theme}
+    {%
+      \vfill%
+      \llap{\usebeamertemplate***{navigation symbols}\hskip0.1cm}%
+      \vskip2pt}
+  \fi
+                                % Margins
+  \setbeamersize{text margin left=0.7cm,text margin right=0.7cm}
+\fi
+
+
+
+\def\beamer@theme@footline@empty{}
+
+\def\beamer@theme@footline@authorinstitute
+{
+	\defbeamertemplate*{footline}{infolines theme}
+	{
+	  \leavevmode%
+	  \hbox{%
+	  \begin{beamercolorbox}[wd=.5\paperwidth,ht=2.25ex,dp=1ex,left]{author in head/foot}%
+    	\usebeamerfont{author in head/foot}\hspace{1em}\insertshortauthor
+	  \end{beamercolorbox}%
+	  \begin{beamercolorbox}[wd=.25\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+  		  \usebeamerfont{title in head/foot}\insertshortinstitute
+	  \end{beamercolorbox}%
+	  \begin{beamercolorbox}[wd=.16\paperwidth,ht=2.25ex,dp=1ex,center]{date in head/foot}%
+	    \usebeamerfont{date in head/foot}\insertshortdate{}
+	  \end{beamercolorbox}%
+	  \begin{beamercolorbox}[wd=.09\paperwidth,ht=2.25ex,dp=1ex,center]{page in head/foot}%
+	    \insertframenumber{} / \inserttotalframenumber 
+	  \end{beamercolorbox}}%
+ 	  \vskip0pt%
+	}
+}
+
+\newif\ifbeamer@theme@subsection
+\beamer@theme@subsectiontrue
+
+\DeclareOptionBeamer{footline}{\csname beamer@theme@footline@#1\endcsname}
+\DeclareOptionBeamer{subsection}[true]{\csname beamer@theme@subsection#1\endcsname}
+\ProcessOptionsBeamer
+
+
+\mode<presentation>
+                                % Head
+
+	\defbeamertemplate*{headline}{split theme}
+	{%
+	   \begin{beamercolorbox}[ht=4ex,dp=1.125ex, center]{title in head/foot}%
+ 	     { \usebeamerfont{title in head/foot}\scriptsize \insertshorttitle}%
+	    \end{beamercolorbox}
+	}
+
+\mode
+<all>
+
+%%% Local Variables: 
+%%% TeX-master: "~/texmf/tex/latex/beamer/test/test.tex"
+%%% End: 
