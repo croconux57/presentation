@@ -1,0 +1,184 @@
+\ProvidesPackageRCS $Header: /cvsroot/latex-beamer/latex-beamer/themes/theme/beamerthemeExpose.sty,v 1.0 2010/04/01 $
+
+\newif\iffrenchlang   \frenchlangtrue    % ouvrage en français, false => in american 
+\DeclareOptionBeamer{american}{%
+   \frenchlangfalse
+}
+
+
+\newif\iftransparent   \transparenttrue    % ouvrage en français, false => in american 
+\DeclareOptionBeamer{nontransparent}{%
+   \transparentfalse
+}
+
+
+\newif\ifFullScreen \FullScreentrue    % ouvrage en français, false => in american 
+\DeclareOptionBeamer{nFS}{%
+   \FullScreenfalse
+}
+
+
+\DeclareOptionBeamer{width}
+{\PassOptionsToPackage{width=#1}{beamerouterthemeOExpose}}
+
+\DeclareOptionBeamer{hideothersubsections}
+{\PassOptionsToPackage{hideothersubsections=#1}{beamerouterthemeOExpose}}
+
+\DeclareOptionBeamer{hideallsubsections}
+{\PassOptionsToPackage{hideallsubsections=#1}{beamerouterthemeOExpose}}
+
+\ProcessOptionsBeamer
+
+%la table des matières s'arret aux sections
+\setcounter{tocdepth}{1}
+
+\mode<presentation>
+{
+  \iftransparent 
+		\setbeamercovered{transparent}
+	\else
+		\setbeamercovered{whatever}
+	\fi 
+}
+\useoutertheme[height=0pt, width=2cm, left, footline=authorinstitute]{OExpose}
+\useinnertheme{IExpose}
+
+\usecolortheme{seahorse}
+
+\setbeamerfont{block title}{size={}}
+
+\mode
+<all>
+
+
+
+
+\newcommand{\langue}{
+	\iffrenchlang 
+		\usepackage[francais]{babel}%permet de respecter le régle typographique
+		\usepackage[francais]{varioref}%permet d'avoir des refrances amèliorès
+	\else
+	 	\usepackage[american]{babel}%permet de respecter le régle typographique
+	 	\usepackage[american]{varioref}%permet d'avoir des refrances amèliorès
+	 \fi 
+}
+
+\newcommand{\affichage}{
+	\ifFullScreen
+		\hypersetup{pdfpagemode=FullScreen}
+	 \fi 
+}
+
+\newcommand{\diapoI}{
+	\begin{frame}
+		\titlepage
+	\end{frame}}
+	
+\newcommand{\diapoIStage}[4]{
+	\begin{frame}
+		\titlepage
+		\vspace{-3em}
+		\begin{center}
+			\huge{ \maitreStage{#1}{#2}\\
+			\vspace{-1em}
+			\tuteurStage{#3}{#4}}
+		\end{center}
+	\end{frame}}
+	
+\newcommand{\question}{
+\begin{frame}
+	\begin{center}
+		\iffrenchlang 
+			\Huge{Des questions ???}
+		 \else
+		 	\Huge{Questions ???}
+		 \fi 	
+	\end{center}
+\end{frame}}		
+
+\newcommand{\questionYN}{
+\begin{frame}
+	\begin{center}
+		\iffrenchlang 
+			\Huge{Des questions ???}
+			
+			\hyperlink{questions}{\beamerbutton{OUI}}
+			\hspace{.35\paperwidth}\hyperlink{finPresentation}{\beamerbutton{NON}}
+		 \else
+		 	\Huge{Questions ???}
+		 	
+		 	\hyperlink{questions}{\beamerbutton{YES}}
+			\hspace{.35\paperwidth}\hyperlink{finPresentation}{\beamerbutton{NO}}
+		 \fi 	
+	\end{center}
+\end{frame}}
+
+\newcommand{\reponce}{\label{questions}}
+
+
+\newcommand{\dernierD}{
+\begin{frame}
+	\label{finPresentation}
+	\begin{center}
+		\iffrenchlang 
+			\Huge{Merci de votre attention.}
+		 \else
+		 	\Huge{Thank you for your attention}%THANK YOU FOR YOUR ATTENTION
+		 \fi 	
+	\end{center}
+\end{frame}}	
+	
+
+
+\newcommand{\intro}{\frametitle{\uppercase{Introduction}}}
+\newcommand{\conclu}{\frametitle{\uppercase{Conclusion}}}
+
+\newcommand{\planExpo}{
+	\begin{frame}
+		\label{plan}
+		\intro{}
+		\iffrenchlang 
+			\framesubtitle{\uppercase{Plan}}
+		 \else
+		 	\framesubtitle{\uppercase{Outline}}
+		 \fi 
+		\tableofcontents
+	\end{frame}}
+
+\renewcommand{\logo}[1]{
+%pour mettre un logo sur toutes les page
+\pgfdeclareimage[width=0.9cm]{logo}{#1}
+\logo{\pgfuseimage{logo}}
+}
+
+\newcommand{\nom}[2]{\mbox{#1}~\uppercase{#2}}
+\newcommand{\tuteurStage}[2]{\footnotesize{Tuteur de stage}~:~\nom{#1}{#2}}
+\newcommand{\maitreStage}[2]{\footnotesize{Maître de stage}~:~\nom{#1}{#2}}
+\newcommand{\ufrst}{UFR-ST} 
+
+
+
+\RequirePackage[utf8]{inputenc}%indique le codage d'entrée
+\RequirePackage[T1]{fontenc}%permet l'accès au glyphes
+%permet d'inserer des symboles
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\RequirePackage{amssymb}
+\RequirePackage{amsmath}
+\RequirePackage{wasysym}
+\RequirePackage{gensymb}
+\RequirePackage{textcomp}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\RequirePackage{hyperref}
+
+\RequirePackage{graphicx}%permet d'inserer des images
+\RequirePackage{tikz} %permet de tracer des figures TIKZ
+
+\RequirePackage{listings}%permet d'inserer du code source
+\RequirePackage{xcolor}
+\RequirePackage{color}
+
+\IfFileExists{lmodern.sty}{\RequirePackage{lmodern}}
+
+\langue{}
+\affichage{}
